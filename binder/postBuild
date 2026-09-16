@@ -8,6 +8,9 @@ wget -r -nd --no-parent -A EA* -R index.html -P "$DATA_DIR" https://webdata.wolk
 # Ensure the cache directory exists
 mkdir -p "${CARTOPY_DATA_DIR}"
 
+# Maybe that fixes the MemoryError
+export NODE_OPTIONS="--max-old-space-size=4096"
+
 # Pre-fetch Natural Earth features at desired scales
 python - <<'PY'
 import cartopy.feature as cfeature
