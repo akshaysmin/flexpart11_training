@@ -19,6 +19,6 @@ dependencies:
   #- make
   #- pkg-config
   #- netcdf-fortran
-  - eccodes-python
+  - python-eccodes
   #- eccodes=2.35.0
   - vim
