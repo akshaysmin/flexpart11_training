@@ -15,9 +15,10 @@ dependencies:
   - ipython=8.24.0
   - imageio=2.37.4
   - f90nml=1.4.4
-  - gfortran_linux-64=14.1.0
-  - make
-  - pkg-config
-  - netcdf-fortran
-  - eccodes=2.35.0
+  #- gfortran_linux-64=14.1.0
+  #- make
+  #- pkg-config
+  #- netcdf-fortran
+  - eccodes-python
+  #- eccodes=2.35.0
   - vim

@@ -9,7 +9,8 @@ wget -r -nd --no-parent -A EA* -R index.html -P "$DATA_DIR" https://webdata.wolk
 mkdir -p "${CARTOPY_DATA_DIR}"
 
 # Maybe that fixes the MemoryError
-export NODE_OPTIONS="--max-old-space-size=4096"
+# export NODE_OPTIONS="--max-old-space-size=4096"
+update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-14 100
 
 # Pre-fetch Natural Earth features at desired scales
 python - <<'PY'

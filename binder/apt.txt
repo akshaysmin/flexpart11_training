@@ -1,0 +1,5 @@
+gfortran-14
+libnetcdf-dev
+libeccodes-dev
+make
+pkg-config
