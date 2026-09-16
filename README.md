@@ -38,6 +38,6 @@ The documentation of FLEXINVERT can be found in the [FLEXINVERT Gitlab repositor
 We would like to thank all contributors and developers of FLEXPART and FLEXINVERT for their hard work and dedication. Their efforts have made this training possible and have greatly advanced the field of atmospheric research.
 
 <img src="https://www.flexpart.eu/images/flexpart_banner.png" alt="Flexpart" style="width:auto;max-height:100px;">
-<img src="https://nilu.com/about-nilu/logos-for-download/nilu-logo-seagreen-rgb-300px-2/" alt="NILU" style="width:auto;max-height:100px;">
+<img src="https://nilu.com/wp-content/uploads/2023/12/nilu-logo-seagreen-rgb-300px.png" alt="NILU" style="width:auto;max-height:100px;">
 <img src="https://www.univie.ac.at/fileadmin/user_upload/univie/Logos/Logos_Universitaet_Wien/Uni_Logo.png" alt="Universität Wien" style="width:auto;max-height:100px;">
 <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/GeoSphere_Austria.svg/1280px-GeoSphere_Austria.svg.png?utm_source=de.wikipedia.org&utm_campaign=index&utm_content=thumbnail" alt="Geosphere" style="width:auto;max-height:100px;">    

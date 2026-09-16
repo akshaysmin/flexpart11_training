@@ -18,4 +18,6 @@ dependencies:
   - netcdf-fortran
   - python-eccodes
   - eccodes=2.35.0
+  - earthkit-data
+  - earthkit-plots
   - vim
