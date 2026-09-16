@@ -1,11 +1,13 @@
 import numpy as np
-#import xarray as xr
+
+# import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.gridspec as gridspec
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
-#import datetime
+
+# import datetime
 from pyproj import Geod
 from cartopy.mpl.contour import GeoContourSet
 from matplotlib.animation import FuncAnimation
@@ -126,7 +128,7 @@ def setup_fig(ds):
         central_latitude=central_lat,
     )
 
-    fig = plt.figure(figsize=(9, 6))
+    fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(gs[0, 0], projection=proj)
 
     rel_coords = set(
@@ -143,6 +145,16 @@ def setup_fig(ds):
         ds["latitude"],
         rel_coords,
     )
+
+    # extent based on outgrid and square
+    xmin, xmax, ymin, ymax = ax.get_extent(crs=proj)
+    cx = 0.5 * (xmin + xmax)
+    cy = 0.5 * (ymin + ymax)
+    half_w = 0.5 * (xmax - xmin)
+    half_h = 0.5 * (ymax - ymin)
+    r = max(half_w, half_h)
+    new_extent = [cx - r, cx + r, cy - r, cy + r]
+    ax.set_extent(new_extent, crs=proj)
 
     return fig, ax, gs
 
@@ -276,7 +288,7 @@ def plot_map_anim(ds, cmap, levels, norm):
                 h1 = ax.contourf(
                     data["longitude"],
                     data["latitude"],
-                    data.isel(time=n,pointspec=r,nageclass=a),
+                    data.isel(time=n, pointspec=r, nageclass=a),
                     norm=norm,
                     cmap=cmap,
                     levels=levels,
