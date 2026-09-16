@@ -8,10 +8,6 @@ wget -r -nd --no-parent -A EA* -R index.html -P "$DATA_DIR" https://webdata.wolk
 # Ensure the cache directory exists
 mkdir -p "${CARTOPY_DATA_DIR}"
 
-# Maybe that fixes the MemoryError
-# export NODE_OPTIONS="--max-old-space-size=4096"
-update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-14 100
-
 # Pre-fetch Natural Earth features at desired scales
 python - <<'PY'
 import cartopy.feature as cfeature
@@ -37,3 +33,16 @@ for base in features:
         except Exception as e:
             print(f"Warning: could not cache {getattr(base, 'name', str(base))} at {scale}: {e}")
 PY
+
+# does not work
+# update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-14 100
+mkdir -p "$HOME/.local/bin"
+ln -sf /usr/bin/gfortran-14 "$HOME/.local/bin/gfortran"
+# Variables
+cat >> $HOME/.bashrc <<'EOF'
+# Add local bin to PATH
+export PATH="$HOME/.local/bin:$PATH"
+export CPATH="/srv/conda/envs/notebook/include:$CPATH"
+export LIBRARY_PATH="/srv/conda/envs/notebook/lib:$LIBRARY_PATH"
+export FC=gfortran-14
+EOF

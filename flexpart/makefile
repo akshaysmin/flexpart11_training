@@ -146,7 +146,8 @@ endif
 #
 ## Build flags for different compilers
 #
-ifneq ($(filter %gfortran, $(FC)),)
+# ifneq ($(filter %gfortran, $(FC)),)
+ifneq ($(findstring gfortran, $(FC)),)
 $(info Using GNU Fortran compiler: $(FC))
 # -m64 is needed for large memory models (64 bit addressing)
 # -cpp C preprocessor (for ifdefs)
