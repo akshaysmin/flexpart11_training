@@ -45,4 +45,42 @@ export PATH="$HOME/.local/bin:$PATH"
 export CPATH="/srv/conda/envs/notebook/include:$CPATH"
 export LIBRARY_PATH="/srv/conda/envs/notebook/lib:$LIBRARY_PATH"
 export FC=gfortran-14
+
+# User specific environment
+export HISTCONTROL=ignoreboth:erasedups
+export HISTFILESIZE=10000
+export HISTSIZE=1000
+# time format (Date + time)
+export HISTTIMEFORMAT='%F %T '
+# combine History of all instances
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR=vim
+# shell options
+shopt -s direxpand
+EOF
+
+cat > $HOME/.inputrc <<'EOF'
+# Make history searchable
+"\e[B": history-search-forward
+"\e[A": history-search-backward
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+set completion-ignore-case On
+set show-all-if-ambiguous on
+set completion-query-items 350
+set page-completions off
+set match-hidden-files off
+
+# Include system wide settings which are ignored
+# by default if one has their own .inputrc
+$include /etc/inputrc
 EOF
