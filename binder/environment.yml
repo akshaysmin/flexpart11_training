@@ -22,3 +22,4 @@ dependencies:
   - vim
   - pip:
     - earthkit-plots
+    - earthkit-meteo
