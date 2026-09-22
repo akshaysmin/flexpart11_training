@@ -380,7 +380,7 @@
       open(11,file='correlation.txt')
 
       write(11,'(2f7.2,1x,i8.8,1x,i2.2,1x,i8.8,1x,i2.2,e9.2,3x,3i3,
-     &           2f5.2,2f7.1,2i4a)')
+     &           2f5.2,2f7.1,2i4,a)')
      &  -99.90,-99.90,iymd_start,ihms_start/10000,
      &  iymd_start,ihms_start/10000,xmass,nint(timespan),idhours1,
      &  idhours2,dxout,dyout,outlon0,outlat0_new,nxout,
