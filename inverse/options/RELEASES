@@ -1,0 +1,420 @@
+***************************************************************************************************************
+*                                                                                                             *
+*                                                                                                             *
+*                                                                                                             *
+*   Input file for the Lagrangian particle dispersion model FLEXPART                                          *
+*                        Please select your options                                                           *
+*                                                                                                             *
+*                                                                                                             *
+*                                                                                                             *
+***************************************************************************************************************
+&RELEASES_CTRL
+ NSPEC      =           1, ! Total number of species
+ SPECNUM_REL=           1, ! Species numbers in directory SPECIES
+ /
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         000000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         010000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 1", ! Comment, written in the outputfile
+ /
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         010000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         020000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 2", ! Comment, written in the outputfile
+
+ /
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         020000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         030000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 3", ! Comment, written in the outputfile
+
+ /
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         030000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         040000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 4", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         040000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         050000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 5", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         050000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         060000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 6", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         060000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         070000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 7", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         070000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         080000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 8", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         080000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         090000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 9", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         090000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         100000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 10", ! Comment, written in the outputfile
+ /
+  
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         100000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         110000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 11", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         110000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         120000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 12", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         120000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         130000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 13", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         130000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         140000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 14", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         140000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         150000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 15", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         150000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         160000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 16", ! Comment, written in the outputfile
+ /
+ 
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         160000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         170000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 17", ! Comment, written in the outputfile 
+ /
+   
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         170000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         180000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 18", ! Comment, written in the outputfile 
+ /
+   
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         180000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         190000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 19", ! Comment, written in the outputfile 
+ /
+   
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         190000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         200000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 20", ! Comment, written in the outputfile 
+ /
+   
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         200000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         210000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 21", ! Comment, written in the outputfile 
+ /
+   
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         210000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         220000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 22", ! Comment, written in the outputfile
+ /
+   
+&RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         220000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         230000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 23", ! Comment, written in the outputfile
+ /
+ 
+ &RELEASE                   ! For each release 
+ IDATE1  =       XXXXXXXX, ! Release start date, YYYYMMDD: YYYY=year, MM=month, DD=day
+ ITIME1  =         230000, ! Release start time in UTC HHMISS: HH hours, MI=minutes, SS=seconds
+ IDATE2  =       XXXXXXXX, ! Release end date, same as IDATE1
+ ITIME2  =         000000, ! Release end time, same as ITIME1
+ LON1    =           25.6,  ! Left longitude of release box -180 < LON1 <180
+ LON2    =           25.6,  ! Right longitude of release box, same as LON1
+ LAT1    =         35.34 , ! Lower latitude of release box, -90 < LAT1 < 90
+ LAT2    =         35.34,  ! Upper latitude of release box same format as LAT1 
+ Z1      =         250.00, ! Lower height of release box meters/hPa above reference level
+ Z2      =         250.00, ! Upper height of release box meters/hPa above reference level
+ ZKIND   =              1, ! Reference level 1=above ground, 2=above sea level, 3 for pressure in hPa
+ MASS    =            100, ! Total mass emitted, only relevant for fwd simulations
+ PARTS   =          10000, ! Total numbesr of particles to be released
+ COMMENT =    "RELEASE 24", ! Comment, written in the outputfile
+ /
