@@ -8,13 +8,9 @@
     Original Author contact information:
 
     Delia Arnold
-    delia.arnold-arias@zamg.ac.at
-
     Marie Danielle Mulder
-    marie.mulder@zamg.ac.at
-
     Christian Maurer
-    christian.maurer@zamg.ac.at
+    christian.maurer@geosphere.at
 
     Disclaimer:
 
