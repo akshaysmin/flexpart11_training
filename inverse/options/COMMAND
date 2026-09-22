@@ -5,7 +5,7 @@
 *                                                                                                             *
 ***************************************************************************************************************
 &COMMAND
- LDIRECT=              -1, ! Simulation direction in time   ; 1 (forward) or -1 (backward)
+ LDIRECT=               1, ! Simulation direction in time   ; 1 (forward) or -1 (backward)
  IBDATE=         XXXXXXXX, ! Start date of the simulation   ; YYYYMMDD: YYYY=year, MM=month, DD=day  
  IBTIME=           000000, ! Start time of the simulation   ; HHMISS: HH=hours, MI=min, SS=sec; UTC
  IEDATE=         XXXXXXXX, ! End date of the simulation     ; same format as IBDATE 
