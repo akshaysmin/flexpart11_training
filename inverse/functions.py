@@ -10,14 +10,12 @@ import matplotlib.colors as mcolors
 
 #######################################################################################################################################################
 
-
-def add_source(emissions, *, lat, lon, val):
-    emissions.append({"lat": lat, "lon": lon, "val": val * 1e-12})
+def add_source(emissions: list, *, lat: float, lon: float, val: float, edgecolor="green"):
+    emissions.append({"lat": lat, "lon": lon, "val": val * 1e-12, "edgecolor": edgecolor})
     return emissions
 
 
 ########################################################################################################################################################
-
 
 def read_grid_time_file(grid_time_file):
     from datetime import datetime, timedelta
@@ -76,7 +74,7 @@ def plot_sensitivity_for_all_releases(
             cmap=cmap,
             norm=mcolors.LogNorm(vmin=colorbar_limits[0], vmax=colorbar_limits[1]),
         )
-        #                        norm=mcolors.Normalize(vmin=0, vmax=500))
+    
         ax.set_title(f"t = {release_times[i]}")
         ax.set_extent(map_coordinates)
         ax.add_feature(cartopy.feature.COASTLINE, alpha=0.5)
@@ -112,7 +110,7 @@ def plot_sensitivity_for_all_releases(
 ##############################################################################################################
 
 
-def create_rectangle(lat, lon, emissions):
+def create_rectangle(lat, lon, emissions, edgecolor="green"):
     from matplotlib.patches import Rectangle
 
     rects = []
@@ -132,7 +130,7 @@ def create_rectangle(lat, lon, emissions):
             dlon,
             dlat,
             linewidth=3,
-            edgecolor="green",
+            edgecolor=emissions[i].get("edgecolor", edgecolor),
             facecolor="none",
             transform=ccrs.PlateCarree(),
         )
@@ -179,7 +177,7 @@ def plot_timeseries(release_times, timeseries, label=None, ax=None):
 #############################################################################################
 
 
-def peturb_emissions(pertubations, emissions):
+def perturb_emissions(pertubations, emissions):
     a_priori_emissions = np.array(
         [
             emissions[i]["val"] + pertubations[i] * emissions[i]["val"]
@@ -187,30 +185,6 @@ def peturb_emissions(pertubations, emissions):
         ]
     )
     return a_priori_emissions
-
-
-############################################################################################
-
-
-# def calculate_Trasport_matrix_H(conc, height, e):
-#     H = []
-#     for i in range(len(e)):
-#         target_lat = e[i][0]
-#         target_lon = e[i][1]
-#         ind_lat = np.argmin(np.abs(lat - target_lat))
-#         ind_lon = np.argmin(np.abs(lon - target_lon))
-#         H.append(
-#             np.sum(
-#                 np.array(
-#                     [conc[0, i, :, 0, ind_lat, ind_lon] for i in range(len(conc[0]))]
-#                 ),
-#                 axis=1,
-#             )
-#         )
-#     H = H / height[0]
-#     H = H.T
-#     Ht = np.array(H).T
-#     return H, Ht
 
 
 ###############################################################################################

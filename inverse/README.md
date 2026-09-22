@@ -4,3 +4,4 @@ This exercise is designed to introduce participants to the basics of inverse mod
 
 To get started, participants should start with the [Introduction](./Introduction.ipynb) notebook, which provides an overview of the input data and should help in setting up the simulation. The next step is to run the [Emissions](./Emissions.ipynb) notebook, which covers the preparation of emission data for the inverse modelling process. And finally, participants can run the [Inverse Modelling](./Inversion.ipynb) notebook, which demonstrates the inverse modelling process using the prepared emission data and observed concentrations.
 
+[Binder Link](https://mybinder.org/v2/gh/duetschm/flexpart11_training/HEAD)
