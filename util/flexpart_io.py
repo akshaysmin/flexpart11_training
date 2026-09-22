@@ -266,27 +266,35 @@ def read_binary(flxdir, filepattern):
             ),
             "RELLNG1": (
                 ["pointspec"],
-                np.array([nml["release"][i]["lon1"] for i in range(nrel)])
-                if nrel > 1
-                else nml["release"]["lon1"]
+                (
+                    np.array([nml["release"][i]["lon1"] for i in range(nrel)])
+                    if nrel > 1
+                    else nml["release"]["lon1"]
+                ),
             ),
             "RELLNG2": (
                 ["pointspec"],
-                np.array([nml["release"][i]["lon2"] for i in range(nrel)])
-                if nrel > 1
-                else nml["release"]["lon2"]
+                (
+                    np.array([nml["release"][i]["lon2"] for i in range(nrel)])
+                    if nrel > 1
+                    else nml["release"]["lon2"]
+                ),
             ),
             "RELLAT1": (
                 ["pointspec"],
-                np.array([nml["release"][i]["lat1"] for i in range(nrel)])
-                if nrel > 1
-                else nml["release"]["lat1"]
+                (
+                    np.array([nml["release"][i]["lat1"] for i in range(nrel)])
+                    if nrel > 1
+                    else nml["release"]["lat1"]
+                ),
             ),
             "RELLAT2": (
                 ["pointspec"],
-                np.array([nml["release"][i]["lat2"] for i in range(nrel)])
-                if nrel > 1
-                else nml["release"]["lat2"]
+                (
+                    np.array([nml["release"][i]["lat2"] for i in range(nrel)])
+                    if nrel > 1
+                    else nml["release"]["lat2"]
+                ),
             ),
         },
         coords={
@@ -304,21 +312,21 @@ def read_binary(flxdir, filepattern):
 
 def open_flexpart_grid(flxdir, fileformat="netcdf", filepattern="grid"):
     """
-    Open and process a FLEXPART output file.
+    Open and process a FLEXPART gridded output file.
 
     Parameters
     ----------
     flxdir : str
-        Directory containing the FLEXPART output files.
+        Directory containing the FLEXPART gridded output files.
     fileformat : {"netcdf", "binary"}, default="netcdf"
         Format of the FLEXPART output to open.
     filepattern : str, default="grid"
-        Prefix used to select the FLEXPART output files.
+        Prefix used to select the FLEXPART gridded output files.
 
     Returns
     -------
     ds : xarray.Dataset
-        Loaded FLEXPART dataset with reduced dimensions.
+        Loaded FLEXPART gridded dataset with reduced dimensions.
     heights_exp : numpy.ndarray
         Heights array with 0 prepended.
     """
@@ -334,6 +342,28 @@ def open_flexpart_grid(flxdir, fileformat="netcdf", filepattern="grid"):
     heights_exp = np.concatenate([[0.0], ds["height"]])
 
     return ds, heights_exp
+
+
+def open_flexpart_part(flxdir, filepattern="partoutput"):
+    """
+    Open and process a FLEXPART particle output file.
+
+    Parameters
+    ----------
+    flxdir : str
+        Directory containing the FLEXPART particle output files.
+    filepattern : str, default="partoutput"
+        Prefix used to select the FLEXPART particle output files.
+
+    Returns
+    -------
+    ds : xarray.Dataset
+        Loaded FLEXPART particle dataset.
+    """
+    # load dataset
+    ds = xr.open_mfdataset(sorted(glob.glob(f"{flxdir}/{filepattern}*.nc")))
+
+    return ds
 
 
 def open_topography(filename):

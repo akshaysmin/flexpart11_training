@@ -159,9 +159,9 @@ def setup_fig(ds):
     return fig, ax, gs
 
 
-def plot_map(ds, cmap, levels, norm, lon1=None, lat1=None, lon2=None, lat2=None):
+def plot_map_grid(ds, cmap, levels, norm, lon1=None, lat1=None, lon2=None, lat2=None):
     """
-    Plot a map with FLEXPART concentration data.
+    Plot a map with FLEXPART gridded data.
 
     Parameters
     ----------
@@ -191,7 +191,7 @@ def plot_map(ds, cmap, levels, norm, lon1=None, lat1=None, lon2=None, lat2=None)
     fig, ax, gs = setup_fig(ds)
 
     # mask data
-    data = ds["spec001_mr"].isel(time=0)
+    data = ds["spec001_mr"].weighted(ds["height"]).mean(dim="height").isel(time=0)
     data.values = np.ma.MaskedArray(data, mask=data == 0.0).filled(1e-10)
 
     # add title
@@ -234,6 +234,7 @@ def plot_map(ds, cmap, levels, norm, lon1=None, lat1=None, lon2=None, lat2=None)
             zorder=3,
         )
 
+    # add colorbar
     cax = fig.add_subplot(gs[0, 2])
     cbar = plt.colorbar(h1, ax=ax, cax=cax, label=ds["spec001_mr"].units)
 
@@ -244,7 +245,104 @@ def plot_map(ds, cmap, levels, norm, lon1=None, lat1=None, lon2=None, lat2=None)
     return fig
 
 
-def plot_map_anim(ds, cmap, levels, norm):
+def get_lon_lat(ds):
+    """
+    Return longitude and latitude coordinate arrays from a dataset.
+
+    Parameters
+    ----------
+    ds : xarray.Dataset
+        Dataset containing either ``lon``/``lat`` or ``lon_av``/``lat_av``.
+
+    Returns
+    -------
+    tuple
+        Longitude and latitude coordinate arrays.
+    """
+    if "lon" in ds:
+        lon = ds["lon"]
+    elif "lon_av" in ds:
+        lon = ds["lon_av"]
+    else:
+        raise KeyError("Dataset must contain either 'lon' or 'lon_av' coordinates.")
+
+    if "lat" in ds:
+        lat = ds["lat"]
+    elif "lat_av" in ds:
+        lat = ds["lat_av"]
+    else:
+        raise KeyError("Dataset must contain either 'lat' or 'lat_av' coordinates.")
+
+    return lon, lat
+
+
+def plot_map_part(fig, ax, gs, ds, varname, cmap, vmin, vmax):
+    """
+    Plot a map with FLEXPART particle data.
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        Figure container for the map plot.
+    ax : matplotlib.axes.Axes
+        Axes object used to draw the map.
+    gs : matplotlib.gridspec.GridSpec
+        GridSpec used to place the colorbar.
+    ds : xarray.Dataset
+        FLEXPART dataset at one time step.
+    varname : str
+        Variable to plot.
+    cmap : str or matplotlib.colors.Colormap
+        Colormap to use for plotting.
+    vmin : float
+        Minimum value for the color scale.
+    vmax : float
+        Maximum value for the color scale.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The figure object containing the map plot.
+    """
+    # get data
+    data = ds[varname].isel(time=0)
+    lon, lat = get_lon_lat(ds)
+
+    # get ax extent from outgrid
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+
+    # add title
+    ax.set_title(ds[varname].long_name, loc="left")
+    ax.set_title(np.datetime_as_string(data["time"], unit="h"), loc="right")
+
+    # plot data
+    h1 = ax.scatter(
+        lon,
+        lat,
+        c=data,
+        s=5,
+        cmap=cmap,
+        vmin=vmin,
+        vmax=vmax,
+        transform=ccrs.PlateCarree(),
+        zorder=2,
+    )
+
+    # set ax extent
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+    # add colorbar
+    cax = fig.add_subplot(gs[0, 2])
+    norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    cbar = plt.colorbar(sm, ax=ax, cax=cax, label=ds[varname].units)
+
+    return fig
+
+
+def plot_map_grid_anim(ds, cmap, levels, norm):
     """
     Create an animated map showing FLEXPART concentration evolution over time.
 
@@ -324,6 +422,150 @@ def plot_map_anim(ds, cmap, levels, norm):
     plt.close(fig)
 
     return ani
+
+
+def plot_map_part_anim(fig, ax, gs, ds, varname, cmap, vmin, vmax):
+    """
+    Create an animated map showing FLEXPART concentration evolution over time.
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        Figure container for the animation.
+    ax : matplotlib.axes.Axes
+        Axes object used to draw the map.
+    gs : matplotlib.gridspec.GridSpec
+        GridSpec used to place the colorbar.
+    ds : xarray.Dataset
+        FLEXPART dataset with time dimension.
+    cmap : str or matplotlib.colors.Colormap
+        Colormap to use for plotting.
+    vmin : float
+        Minimum value for the color scale.
+    vmax : float
+        Maximum value for the color scale.
+
+    Returns
+    -------
+    matplotlib.animation.FuncAnimation
+        Animation object showing the variable over time.
+    """
+    # get data
+    ds_sorted = ds.sortby("time")
+    data = ds_sorted[varname]
+    data.load()
+    lon, lat = get_lon_lat(ds_sorted)
+
+    # get ax extent from outgrid
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+
+    # add title
+    ax.set_title(ds[varname].long_name, loc="left")
+
+    # create scatter once, then only update its data on each frame
+    h1 = ax.scatter(
+        lon.isel(time=0),
+        lat.isel(time=0),
+        c=data.isel(time=0),
+        s=5,
+        cmap=cmap,
+        vmin=vmin,
+        vmax=vmax,
+        transform=ccrs.PlateCarree(),
+        zorder=2,
+    )
+
+    # set ax extent
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+
+    nall = data["time"].size - 1
+
+    # plot data
+    def update(n, data, cmap, vmin, vmax):
+        print(f"\rPlotting frame {n}/{nall}", end="", flush=True)
+
+        h1.set_offsets(
+            np.column_stack(
+                (np.asarray(lon.isel(time=n)), np.asarray(lat.isel(time=n)))
+            )
+        )
+        h1.set_array(np.asarray(data.isel(time=n)))
+
+        ax.set_title(
+            np.datetime_as_string(data["time"].isel(time=n), unit="h"), loc="right"
+        )
+
+        return h1
+
+    # initialize h1 for colorbar
+    h1 = update(0, data, cmap, vmin, vmax)
+
+    cax = fig.add_subplot(gs[0, 2])
+    norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    cbar = plt.colorbar(sm, ax=ax, cax=cax, label=ds[varname].units)
+
+    # plot animation
+    ani = FuncAnimation(
+        fig,
+        update,
+        fargs=(data, cmap, vmin, vmax),
+        frames=data["time"].size,
+        blit=False,
+        interval=50,
+    )
+    plt.close(fig)
+
+    return ani
+
+
+def plot_timeseries_part(ds, varname, ylim=None):
+    """
+    Plot a particle timeseries summary for one variable.
+
+    Parameters
+    ----------
+    ds : xarray.Dataset
+        FLEXPART particle dataset containing the variable to plot.
+    varname : str
+        Name of the variable to plot.
+    ylim : tuple of float, optional
+        Lower and upper limits for the y-axis. If omitted, Matplotlib
+        chooses the limits automatically.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The figure object containing the particle timeseries plot.
+    """
+
+    fig = plt.figure(figsize=(15, 5))
+
+    data = ds[varname]
+    std = data.std(dim="particle")
+    mean = data.mean(dim="particle")
+
+    h1 = plt.plot(data["time"], data.T, color="grey", alpha=0.05, lw=0.1)[0]
+    h2a = plt.plot(data["time"], mean + std, color="black", lw=1.0)[0]
+    h2b = plt.plot(data["time"], mean - std, color="black", lw=1.0)[0]
+    h3 = plt.plot(data["time"], mean, color="tab:red", lw=2.0)[0]
+
+    plt.xlim((data["time"].min(), data["time"].max()))
+    if ylim is not None:
+        plt.ylim(ylim)
+    plt.ylabel(data.units)
+
+    plt.title(data.long_name)
+
+    leg = plt.legend(
+        [h1, h2a, h3], ["particles", "standard deviation", "mean"], loc="upper right"
+    )
+    for handle in leg.legend_handles:
+        handle.set_alpha(1.0)
+
+    return fig
 
 
 def plot_cross_section(
