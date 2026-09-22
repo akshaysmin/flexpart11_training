@@ -5,19 +5,19 @@
 *                                                                                                             *
 ***************************************************************************************************************
 &PARTOPTIONS
-  LONGITUDE=              .true., !
+  LONGITUDE=             .false., !
   LONGITUDE_AVERAGE=     .false., !
-  LATITUDE=               .true., !
+  LATITUDE=              .false., !
   LATITUDE_AVERAGE=      .false., !
-  HEIGHT=                 .true., !
+  HEIGHT=                .false., !
   HEIGHT_AVERAGE=        .false., !
   PV=                    .false., !
   PV_AVERAGE=            .false., !
-  QV=                     .true., !
+  QV=                    .false., !
   QV_AVERAGE=            .false., !
   DENSITY=               .false., !
   DENSITY_AVERAGE=       .false., !
-  TEMPERATURE=            .true., !
+  TEMPERATURE=           .false., !
   TEMPERATURE_AVERAGE=   .false., !
   PRESSURE=              .false., !
   PRESSURE_AVERAGE=      .false., !

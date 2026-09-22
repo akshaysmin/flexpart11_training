@@ -14,9 +14,9 @@
 &OUTGRID
  OUTLON0=      0.00,
  OUTLAT0=     35.00,
- NUMXGRID=       70,
- NUMYGRID=       50,
+ NUMXGRID=       10,
+ NUMYGRID=       10,
  DXOUT=        0.50,
  DYOUT=        0.50,
- OUTHEIGHTS=  100.0, 10000.0,
+ OUTHEIGHTS=  100.0,
  /
