@@ -77,8 +77,8 @@ def plot_sensitivity_for_all_releases(
     
         ax.set_title(f"t = {release_times[i]}")
         ax.set_extent(map_coordinates)
-        ax.add_feature(cartopy.feature.COASTLINE, alpha=0.5)
-        ax.add_feature(cartopy.feature.BORDERS, alpha=0.5)
+        ax.add_feature(cartopy.feature.COASTLINE.with_scale("110m"), alpha=0.5)
+        ax.add_feature(cartopy.feature.BORDERS.with_scale("110m"), alpha=0.5)
         ax.gridlines(draw_labels=False)
         if len(emissions) > 0:
             rects = create_rectangle(lat, lon, emissions)
@@ -154,6 +154,8 @@ def calculate_timeseries(lat, lon, height, conc, emissions):
 
     timeseries = np.zeros(len(conc[0]))
     for i in range(len(timeseries)):
+        # Compute concentration weighted by emissions
+        # s m3 / kg * ng / m2 / s * 1e12 = ppt (part per trillion)
         c = np.sum(conc[0, i, :, 0, :, :] / height[0], axis=0) * em
         timeseries[i] = np.sum(c) * 10**12
     return timeseries
@@ -240,6 +242,26 @@ def concentration_and_emissions_before_inversion(
     return fig
 
 
+
+def stats(y_true, y_pred):
+    import numpy as np
+    # Mean Squared Error (MSE)
+    mse = np.mean((y_true - y_pred) ** 2)
+
+    # Root Mean Squared Error (RMSE)
+    rmse = np.sqrt(mse)
+
+    # Mean Absolute Error (MAE)
+    mae = np.mean(np.abs(y_true - y_pred))
+
+    # Mean Absolute Percentage Error (MAPE)
+    mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+    print(f"MSE:  {mse:.2f}")
+    print(f"RMSE: {rmse:.2f}")
+    print(f"MAE:  {mae:.2f}")
+    print(f"MAPE: {mape:.2f}%")
+
 #####################################################################################################
 
 
@@ -261,6 +283,11 @@ def concentration_and_emissions_after_inversion(
 
     timeseries_prior = calculate_timeseries(lat, lon, height, conc, e_prior)
     timeseries_post = calculate_timeseries(lat, lon, height, conc, e_post)
+
+    print("Statistics for Prior vs True Emissions:")
+    stats(timeseries_true, timeseries_prior)
+    print("Statistics for Posterior vs True Emissions:")
+    stats(timeseries_true, timeseries_post)
 
     true_emissions = np.array([e[i]["val"] for i in range(len(e))])
     prior_emissions = xp_prior
