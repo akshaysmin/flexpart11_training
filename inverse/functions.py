@@ -1,8 +1,225 @@
+"""
+Module: inverse.functions
+Description:
+    Utility functions for reading FLEXPART inverse model output (netCDF), creating
+    plots of emission sensitivities and time series, manipulating emission
+    source definitions, and performing a simple Bayesian inversion to estimate
+    emissions from observations.
+    This module is intended for diagnostic, visualization, and small-scale
+    inversion experiments using sensitivity grids produced by FLEXPART
+    (or similar transport models). It assumes specific variable names and
+    array shapes in the netCDF files (see read_grid_time_file).
+Copyright:
+    Copyright (c) 2026, Flexpart Training Contributors.
+    Author: Martin Vojta, Michael Blaschek
+    All rights reserved.
+Functions:
+    add_source(emissions: list, *, lat: float, lon: float, val: float, edgecolor="green")
+        Add a single emission source to a list of emission descriptors.
+        Parameters:
+            emissions (list): Mutable list of emission dicts to append to. Each
+                emission dict contains keys 'lat', 'lon', 'val', and optional
+                'edgecolor'.
+            lat (float): Latitude of the emission cell center (degrees).
+            lon (float): Longitude of the emission cell center (degrees).
+            val (float): Emission value (units used elsewhere in the code;
+                stored internally scaled by 1e-12).
+            edgecolor (str, optional): Matplotlib edge color for plotting the
+                emission rectangle. Defaults to "green".
+        Returns:
+            list: The same emissions list with the new source appended.
+    read_grid_time_file(grid_time_file)
+        Read model grid, time and sensitivity data from a netCDF file.
+        Parameters:
+            grid_time_file (str or path-like): Path to a netCDF file containing
+                required variables:
+                  - latitude, longitude (1-D arrays)
+                  - time (1-D array)
+                  - height (1-D array)
+                  - spec001_mr (sensitivity array expected with dimensions
+                    [nageclass, pointspec, time, height, lat, lon])
+                  - RELSTART, RELEND (relative times used to compute release_times)
+        Returns:
+            tuple: (lat, lon, time, release_times, height, conc, netcdf_dataset)
+                - lat (ndarray): latitude coordinates
+                - lon (ndarray): longitude coordinates
+                - time (ndarray): raw time values from file
+                - release_times (list[datetime]): reference times for each release
+                - height (ndarray): model height levels
+                - conc (ndarray): sensitivity array (as read from 'spec001_mr')
+                - f (netCDF4.Dataset): open Dataset object (caller may use/close)
+        Notes:
+            - The function derives a reference datetime from the filename
+              (expects a YYYYMMDDHHMMSS timestamp near the end of the filename).
+            - release_times is computed from RELSTART and RELEND variables.
+    plot_sensitivity_for_all_releases(grid_time_file, map_coordinates, emissions, colorbar_limits)
+        Plot spatial sensitivity maps for all release times in a single figure
+        arranged in a grid of subplots.
+        Parameters:
+            grid_time_file (str): Path to the netCDF file (forwarded to
+                read_grid_time_file).
+            map_coordinates (tuple): [lon_min, lon_max, lat_min, lat_max] used
+                for axis.set_extent.
+            emissions (list): List of emission dicts (see add_source). If not
+                empty, rectangular patches are added to mark emission grid cells.
+            colorbar_limits (tuple): (vmin, vmax) limits used by a logarithmic
+                color normalization for the plotted sensitivities.
+        Returns:
+            matplotlib.figure.Figure: The generated figure.
+        Notes:
+            - Uses a custom colormap that sets the first color to white to
+              emphasize zero/near-zero values.
+            - Assumes the sensitivity to plot is conc[0, i, :, 0, :, :] summed
+              over the vertical dimension (or as appropriate for the file).
+    create_rectangle(lat, lon, emissions, edgecolor="green")
+        Create matplotlib Rectangle patches centered on grid cells corresponding
+        to emission locations.
+        Parameters:
+            lat (ndarray): 1-D latitude coordinates.
+            lon (ndarray): 1-D longitude coordinates.
+            emissions (list): List of emission dicts (each with 'lat' and 'lon').
+            edgecolor (str, optional): Default edge color for rectangles.
+        Returns:
+            list[matplotlib.patches.Rectangle]: List of rectangle patch objects
+            using PlateCarree transform ready to be added to GeoAxes.
+    calculate_timeseries(lat, lon, height, conc, emissions)
+        Compute a synthetic concentration time series from sensitivity grids and
+        a set of point emissions.
+        Parameters:
+            lat, lon (ndarray): Grid coordinate arrays.
+            height (ndarray): Model heights (expects height[0] to be scalar or
+                contain a normalization factor).
+            conc (ndarray): Sensitivity array with shape consistent with
+                read_grid_time_file output.
+            emissions (list): List of emission dicts with keys 'lat','lon','val'.
+        Returns:
+            ndarray: 1-D timeseries (same length as number of releases / times)
+                expressed in ppt (part-per-trillion) given the internal unit
+                conventions in this code:
+                  - sensitivity (sm^3/kg) * flux (ng/m^2/s) / height => ng/m^3/s
+                  - multiplied by 1e12 to yield ppt in the code's convention.
+        Notes:
+            - The function places the emission value at the nearest grid cell
+              index for each source and multiplies element-wise with the summed
+              sensitivities to produce contributions to the timeseries.
+    plot_timeseries(release_times, timeseries, label=None, ax=None)
+        Simple helper to plot a timeseries of concentrations vs release_times.
+        Parameters:
+            release_times (list[datetime] or ndarray): Time points for x-axis.
+            timeseries (ndarray): Concentration values to plot.
+            label (str, optional): Line label for legend.
+            ax (matplotlib.axes.Axes, optional): Axes to draw into; if None a
+                new figure/axes pair is created.
+        Returns:
+            matplotlib.axes.Axes: Axes containing the plotted series.
+    perturb_emissions(pertubations, emissions)
+        Build a perturbed (a priori) emissions vector from fractional perturbations.
+        Parameters:
+            pertubations (iterable): Relative perturbation factors (e.g. [+0.1, -0.2]).
+            emissions (list): List of emission dicts (with 'val' keys).
+        Returns:
+            ndarray: a_priori_emissions (1-D array) computed as emissions[i]['val'] *
+            (1 + pertubations[i]).
+        Notes:
+            - The function name and parameter name 'pertubations' follow the
+              calling code; ensure correct spelling when invoking.
+    concentration_and_emissions_before_inversion(lat, lon, height, release_times, conc, e, xp)
+        Visual comparison of true vs prior emissions and the corresponding
+        concentration time series before any inversion is applied.
+        Parameters:
+            lat, lon, height, release_times, conc: Geometry and sensitivity arrays
+                as used elsewhere.
+            e (list): True emission dicts.
+            xp (iterable): Prior emission values (same length as e).
+        Returns:
+            matplotlib.figure.Figure: Figure containing two subplots:
+                - concentration time series for prior and true emissions
+                - bar plot comparing prior and true emission values (ng/m^2/s)
+    stats(y_true, y_pred)
+        Print simple error statistics comparing two 1-D arrays:
+            - MSE, RMSE, MAE, MAPE (percentage)
+        Parameters:
+            y_true (ndarray): Reference/true values.
+            y_pred (ndarray): Predicted/estimated values.
+        Returns:
+            None (prints results).
+        Notes:
+            - MAPE divides by y_true; ensure no zeros in y_true when calling.
+    concentration_and_emissions_after_inversion(lat, lon, height, release_times, conc, e, xp_prior, xp_post)
+        Visualize and compare true, prior and posterior emissions and their
+        concentrations after an inversion.
+        Parameters:
+            lat, lon, height, release_times, conc: Geometry and sensitivity arrays.
+            e (list): True emission dicts.
+            xp_prior (iterable): Prior emission values.
+            xp_post (iterable): Posterior emission values (inferred).
+        Returns:
+            matplotlib.figure.Figure: Figure showing:
+                - concentration time series for prior, posterior and true emissions
+                - bar plot comparing prior, posterior and true emission values
+        Side-effects:
+            - Prints statistics (MSE, RMSE, MAE, MAPE) comparing prior/posterior
+              time series to true time series.
+    calculate_Transport_matrix_H(lat, lon, conc, height, e)
+        Construct the transport/sensitivity matrix H (and its transpose Ht)
+        mapping emissions (grid cells/sources) to observations (release times).
+        Parameters:
+            lat, lon (ndarray): Coordinate arrays.
+            conc (ndarray): Sensitivity array as returned by read_grid_time_file.
+            height (ndarray): Height array (used for normalization).
+            e (list): List of emission dicts (with lat/lon locations identifying
+                grid cells that correspond to columns of H).
+        Returns:
+            tuple: (H, Ht)
+                - H (ndarray): Observation-by-source matrix (time x n_sources)
+                - Ht (ndarray): Transpose of H (n_sources x time)
+        Notes:
+            - The function averages/sums over the model vertical levels using
+              height[0] and selects grid cells corresponding to each source.
+            - The implementation constructs H as time-major and then returns
+              both H and its transpose.
+    inversion(xp, emission_error, observation_error, timeseries, H, Ht)
+        Perform a simple linear Bayesian (Gauss-Markov) inversion to estimate
+        posterior emissions from observations.
+        Parameters:
+            xp (ndarray): Prior emission values (state vector).
+            emission_error (ndarray or iterable): Diagonal elements (relative
+                variances or factors) used to form the background covariance B;
+                B = diag(emission_error * xp). Units must be consistent with xp.
+            observation_error (float or scalar-like): Measurement error value
+                used to build R as observation_error * I (applied to each time).
+            timeseries (ndarray): Observations (e.g. concentration timeseries)
+                in the same unit convention expected by H and xp.
+            H (ndarray): Observation-by-source transport matrix.
+            Ht (ndarray): Transpose of H (source-by-observation).
+        Returns:
+            ndarray: Posterior emission estimate (same shape as xp).
+        Implementation notes:
+            - The function applies small-unit scaling: it converts observation
+              and error quantities by 1e-12 before inversion to match the
+              internal unit conventions in this module.
+            - The posterior update uses the standard formula:
+                x_post = xp + B H^T (H B H^T + R)^{-1} (y - H xp)
+            - R is constructed as diag(observation_error repeated) * 1e-12.
+            - B is constructed as diag(emission_error * xp).
+            - Users should ensure H, xp, and error specifications are consistent
+              and well-conditioned; no explicit regularization other than B
+              and R is applied.
+General Notes and Assumptions:
+    - Many functions assume 0-based indexing and that lat/lon arrays are
+      regularly spaced so that lat[1] - lat[0] and lon[1] - lon[0] yield grid
+      cell extents.
+    - Units and scaling: the module contains scaling factors (notably 1e-12
+      and 1e12) that are chosen to yield convenient plotting units (ppt,
+      ng/m^2/s, etc.). Verify consistency for your datasets.
+    - The netCDF reading logic expects particular variable names; adapt
+      read_grid_time_file if using different file conventions.
+    - The plotting helpers rely on cartopy and matplotlib; make sure a proper
+      PROJ/data environment is available for cartopy features to render.
+"""
 from netCDF4 import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
-
-# import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 import cartopy
 from matplotlib.colors import ListedColormap
