@@ -1,0 +1,6 @@
+&SPECIES_PARAMS
+ PSPECIES="ASH-202",           ! Tracer name
+ PDENSITY=3.00E03,             ! Dry deposition (particles) - rho
+ PDIA=9.00E-06,                ! Dry deposition (particles) - dquer
+ PDSIGMA=1.25,                 ! Dry deposition (particles) - dsig
+/
