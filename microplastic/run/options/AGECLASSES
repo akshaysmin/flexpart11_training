@@ -1,0 +1,8 @@
+&NAGE
+ NAGECLASS=1          ,
+ /
+
+&AGECLASS
+ LAGE=432000,
+ /
+
