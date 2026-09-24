@@ -282,7 +282,9 @@ def plot_sensitivity_for_all_releases(
 
     for i in range(releases):
         ax = axes[i]
-        data = c = np.sum(conc[0, i, :, 0, :, :], axis=0)
+        # sum over all time steps and/or heights too? (could be added here)
+        # ageclass, pointspec, time, height, lat, lon
+        data = np.sum(conc[0, i, :, 0, :, :], axis=0)
         im = ax.pcolormesh(
             lon,
             lat,
@@ -372,6 +374,7 @@ def calculate_timeseries(lat, lon, height, conc, emissions):
     timeseries = np.zeros(len(conc[0]))
     for i in range(len(timeseries)):
         # Compute concentration weighted by emissions
+        # This requires ind_receptor to be 2 to get sm3/kg as units
         # s m3 / kg * ng / m2 / s * 1e12 = ppt (part per trillion)
         c = np.sum(conc[0, i, :, 0, :, :] / height[0], axis=0) * em
         timeseries[i] = np.sum(c) * 10**12
